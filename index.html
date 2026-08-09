@@ -16,6 +16,7 @@
 --accent-hover: #ff4770;
 --text: #2d2d2d;
 --text-muted: #666666;
+--error: #e74c3c;
 }
 
 * {
@@ -23,7 +24,7 @@ box-sizing: border-box;
 margin: 0;
 padding: 0;
 font-family: 'Plus Jakarta Sans', sans-serif;
-user-select: none; /* Prevents text selection */
+user-select: none;
 -webkit-user-select: none;
 }
 
@@ -65,7 +66,7 @@ margin-bottom: 12px;
 }
 
 .input-group {
-margin: 20px 0;
+margin: 20px 0 8px 0;
 }
 
 input[type="text"] {
@@ -81,6 +82,15 @@ transition: border-color 0.2s ease;
 
 input[type="text"]:focus {
 border-color: var(--accent);
+}
+
+.error-msg {
+color: var(--error);
+font-size: 0.9rem;
+font-weight: 600;
+min-height: 20px;
+margin-bottom: 12px;
+display: none;
 }
 
 .sub-text {
@@ -115,6 +125,8 @@ transform: scale(0.98);
 display: none;
 width: 100%;
 max-width: 800px;
+opacity: 0;
+transition: opacity 0.4s ease;
 }
 
 .gallery-header {
@@ -153,7 +165,7 @@ box-shadow: 0 4px 12px rgba(0,0,0,0.05);
 width: 100%;
 height: 100%;
 object-fit: cover;
-pointer-events: none; /* Prevents dragging image */
+pointer-events: none;
 }
 
 /* Anti-Screenshot Warning Modal */
@@ -216,6 +228,8 @@ cursor: pointer;
 <input type="text" id="visitorName" placeholder="Enter your name..." autocomplete="off" />
 </div>
 
+<div class="error-msg" id="errorMsg">Access denied! You're not allowed in 😜</div>
+
 <p class="sub-text">Let’s see if you’re allowed in 🤭</p>
 
 <button class="btn" onclick="checkAccess()">Enter</button>
@@ -229,36 +243,35 @@ cursor: pointer;
 </div>
 
 <div class="photo-grid">
-<!-- Replace src attribute with your photo URLs -->
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo1.jpeg" alt="Moment 1" />
+<img src="images/photo1.jpeg" alt="Moment 1" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo2.jpeg" alt="Moment 2" />
+<img src="images/photo2.jpeg" alt="Moment 2" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo3.jpeg" alt="Moment 3" />
+<img src="images/photo3.jpeg" alt="Moment 3" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo4.jpeg" alt="Moment 4" />
+<img src="images/photo4.jpeg" alt="Moment 4" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo5.jpeg" alt="Moment 4" />
+<img src="images/photo5.jpeg" alt="Moment 5" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo6.jpeg" alt="Moment 4" />
+<img src="images/photo6.jpeg" alt="Moment 6" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo7.jpeg" alt="Moment 4" />
+<img src="images/photo7.jpeg" alt="Moment 7" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo8.jpeg" alt="Moment 4" />
+<img src="images/photo8.jpeg" alt="Moment 8" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo9.jpeg" alt="Moment 4" />
+<img src="images/photo9.jpeg" alt="Moment 9" />
 </div>
 <div class="photo-card">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo10.jpeg" alt="Moment 4" />
+<img src="images/photo10.jpeg" alt="Moment 10" />
 </div>
 </div>
 </div>
@@ -272,12 +285,20 @@ cursor: pointer;
 </div>
 
 <script>
+// Allowed names (case-insensitive)
+const allowedNames = [
+"kelebogile",
+"kele",
+"kelebogile morena",
+"morena"
+];
+
 function checkAccess() {
-const nameInput = document.getElementById('visitorName').value.trim();
-if (!nameInput) {
-alert('Please enter your name first! 😉');
-return;
-}
+const nameInput = document.getElementById('visitorName').value.trim().toLowerCase();
+const errorMsg = document.getElementById('errorMsg');
+
+if (allowedNames.includes(nameInput)) {
+errorMsg.style.display = 'none';
 
 const entryScreen = document.getElementById('entryScreen');
 const galleryScreen = document.getElementById('galleryScreen');
@@ -290,6 +311,15 @@ setTimeout(() => {
 galleryScreen.style.opacity = '1';
 }, 50);
 }, 300);
+} else {
+errorMsg.style.display = 'block';
+// Shake animation for incorrect entry
+const container = document.getElementById('entryScreen');
+container.style.transform = 'translateX(-8px)';
+setTimeout(() => container.style.transform = 'translateX(8px)', 100);
+setTimeout(() => container.style.transform = 'translateX(-8px)', 200);
+setTimeout(() => container.style.transform = 'translateX(0)', 300);
+}
 }
 
 // Trigger Anti-Screenshot Warning
@@ -306,7 +336,7 @@ modal.classList.remove('active');
 // Prevent Right-Click Context Menu
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
-// Intercept Common Screenshot & Copy Keyboard Shortcuts
+// Intercept Keyboard Shortcuts
 document.addEventListener('keyup', (e) => {
 if (e.key === 'PrintScreen') {
 triggerWarning();
@@ -314,7 +344,6 @@ triggerWarning();
 });
 
 document.addEventListener('keydown', (e) => {
-// Catch Ctrl+P, Cmd+P, Ctrl+S, Cmd+S, Cmd+Shift+3/4/5
 if (
 (e.ctrlKey || e.metaKey) &&
 (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S')
@@ -324,7 +353,7 @@ triggerWarning();
 }
 });
 
-// Detect when screen loses focus (often happens when taking screenshots or snipping)
+// Detect screen focus loss (Snipping tool / device screenshot behavior)
 window.addEventListener('blur', () => {
 const galleryScreen = document.getElementById('galleryScreen');
 if (galleryScreen.style.display === 'block') {
