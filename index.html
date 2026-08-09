@@ -1,437 +1,523 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Samukelo's Gallery</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>Samukelo's Gallery</title>
+ <link rel="preconnect" href="https://fonts.googleapis.com">
+ <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+ <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+ 
+ <style>
+ :root {
+ --bg-color: #fff5f7;
+ --card-bg: #ffffff;
+ --accent: #ff6b8b;
+ --accent-hover: #ff4770;
+ --text: #2d2d2d;
+ --text-muted: #666666;
+ --error: #e74c3c;
+ }
 
-<style>
-:root {
---bg-color: #fff5f7;
---card-bg: #ffffff;
---accent: #ff6b8b;
---accent-hover: #ff4770;
---text: #2d2d2d;
---text-muted: #666666;
---error: #e74c3c;
-}
+ * {
+ box-sizing: border-box;
+ margin: 0;
+ padding: 0;
+ font-family: 'Plus Jakarta Sans', sans-serif;
+ user-select: none;
+ -webkit-user-select: none;
+ }
 
-* {
-box-sizing: border-box;
-margin: 0;
-padding: 0;
-font-family: 'Plus Jakarta Sans', sans-serif;
-user-select: none;
--webkit-user-select: none;
-}
+ body {
+ background-color: var(--bg-color);
+ color: var(--text);
+ min-height: 100vh;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ padding: 20px;
+ overflow-x: hidden;
+ }
 
-body {
-background-color: var(--bg-color);
-color: var(--text);
-min-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
-padding: 20px;
-overflow-x: hidden;
-}
+ .container {
+ width: 100%;
+ max-width: 480px;
+ background: var(--card-bg);
+ border-radius: 24px;
+ padding: 32px 24px;
+ box-shadow: 0 10px 30px rgba(255, 107, 139, 0.12);
+ text-align: center;
+ transition: all 0.4s ease;
+ }
 
-/* Screen Container */
-.container {
-width: 100%;
-max-width: 480px;
-background: var(--card-bg);
-border-radius: 24px;
-padding: 32px 24px;
-box-shadow: 0 10px 30px rgba(255, 107, 139, 0.12);
-text-align: center;
-transition: all 0.4s ease;
-}
+ /* ENTRY SCREEN */
+ .entry-screen h2 {
+ font-size: 1.35rem;
+ font-weight: 700;
+ margin-bottom: 24px;
+ color: var(--text);
+ }
 
-/* Entry Screen */
-.entry-screen h2 {
-font-size: 1.35rem;
-font-weight: 700;
-margin-bottom: 24px;
-color: var(--text);
-}
+ .entry-screen p {
+ font-size: 1.05rem;
+ font-weight: 600;
+ margin-bottom: 12px;
+ }
 
-.entry-screen p {
-font-size: 1.05rem;
-font-weight: 600;
-margin-bottom: 12px;
-}
+ .input-group {
+ margin: 20px 0 8px 0;
+ }
 
-.input-group {
-margin: 20px 0 8px 0;
-}
+ input[type="text"] {
+ width: 100%;
+ padding: 14px 18px;
+ border: 2px solid #ffe1e8;
+ border-radius: 16px;
+ font-size: 1rem;
+ outline: none;
+ text-align: center;
+ transition: border-color 0.2s ease;
+ }
 
-input[type="text"] {
-width: 100%;
-padding: 14px 18px;
-border: 2px solid #ffe1e8;
-border-radius: 16px;
-font-size: 1rem;
-outline: none;
-text-align: center;
-transition: border-color 0.2s ease;
-}
+ input[type="text"]:focus {
+ border-color: var(--accent);
+ }
 
-input[type="text"]:focus {
-border-color: var(--accent);
-}
+ .error-msg {
+ color: var(--error);
+ font-size: 0.9rem;
+ font-weight: 600;
+ min-height: 20px;
+ margin-bottom: 12px;
+ display: none;
+ }
 
-.error-msg {
-color: var(--error);
-font-size: 0.9rem;
-font-weight: 600;
-min-height: 20px;
-margin-bottom: 12px;
-display: none;
-}
+ .sub-text {
+ font-size: 0.95rem;
+ color: var(--text-muted);
+ margin-bottom: 24px;
+ }
 
-.sub-text {
-font-size: 0.95rem;
-color: var(--text-muted);
-margin-bottom: 24px;
-}
+ .btn {
+ background-color: var(--accent);
+ color: white;
+ border: none;
+ padding: 14px 28px;
+ border-radius: 16px;
+ font-size: 1rem;
+ font-weight: 600;
+ cursor: pointer;
+ width: 100%;
+ transition: background-color 0.2s ease, transform 0.1s ease;
+ }
 
-.btn {
-background-color: var(--accent);
-color: white;
-border: none;
-padding: 14px 28px;
-border-radius: 16px;
-font-size: 1rem;
-font-weight: 600;
-cursor: pointer;
-width: 100%;
-transition: background-color 0.2s ease, transform 0.1s ease;
-}
+ .btn:hover {
+ background-color: var(--accent-hover);
+ }
 
-.btn:hover {
-background-color: var(--accent-hover);
-}
+ .btn:active {
+ transform: scale(0.98);
+ }
 
-.btn:active {
-transform: scale(0.98);
-}
+ /* VIDEO SCREEN */
+ .video-screen {
+ display: none;
+ opacity: 0;
+ transition: opacity 0.5s ease;
+ width: 100%;
+ max-width: 480px;
+ }
 
-/* Gallery Screen */
-.gallery-screen {
-display: none;
-width: 100%;
-max-width: 800px;
-opacity: 0;
-transition: opacity 0.4s ease;
-}
+ .video-wrapper {
+ width: 100%;
+ border-radius: 20px;
+ overflow: hidden;
+ box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+ background: #000;
+ }
 
-.gallery-header {
-margin-bottom: 32px;
-}
+ .video-wrapper video {
+ width: 100%;
+ height: auto;
+ display: block;
+ }
 
-.gallery-header h1 {
-font-size: 1.6rem;
-font-weight: 700;
-color: var(--text);
-margin-bottom: 8px;
-}
+ /* GALLERY SCREEN */
+ .gallery-screen {
+ display: none;
+ width: 100%;
+ max-width: 800px;
+ opacity: 0;
+ transition: opacity 0.5s ease;
+ }
 
-.gallery-header p {
-font-size: 1.05rem;
-color: var(--text-muted);
-}
+ .gallery-header {
+ margin-bottom: 32px;
+ opacity: 0;
+ transition: opacity 0.5s ease;
+ }
 
-/* Photo Grid */
-.photo-grid {
-display: grid;
-grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-gap: 16px;
-}
+ .gallery-header.show {
+ opacity: 1;
+ }
 
-.photo-card {
-position: relative;
-background: #f8f8f8;
-border-radius: 16px;
-overflow: hidden;
-aspect-ratio: 4 / 5;
-box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-cursor: pointer;
-transition: transform 0.2s ease;
-}
+ .gallery-header h1 {
+ font-size: 1.6rem;
+ font-weight: 700;
+ color: var(--text);
+ margin-bottom: 8px;
+ }
 
-.photo-card:active {
-transform: scale(0.97);
-}
+ .gallery-header p {
+ font-size: 1.05rem;
+ color: var(--text-muted);
+ }
 
-.photo-card img {
-width: 100%;
-height: 100%;
-object-fit: cover;
-pointer-events: none;
-}
+ /* PHOTO GRID */
+ .photo-grid {
+ display: grid;
+ grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+ gap: 16px;
+ opacity: 0;
+ transform: translateY(15px);
+ transition: opacity 0.6s ease, transform 0.6s ease;
+ }
 
-/* FULL-SCREEN IMAGE LIGHTBOX MODAL */
-.lightbox-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(0, 0, 0, 0.9);
-backdrop-filter: blur(5px);
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 9998;
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
-}
+ .photo-grid.show {
+ opacity: 1;
+ transform: translateY(0);
+ }
 
-.lightbox-overlay.active {
-opacity: 1;
-pointer-events: auto;
-}
+ .photo-card {
+ position: relative;
+ background: #f8f8f8;
+ border-radius: 16px;
+ overflow: hidden;
+ aspect-ratio: 4 / 5;
+ box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+ cursor: pointer;
+ transition: transform 0.2s ease;
+ }
 
-.lightbox-img {
-max-width: 90vw;
-max-height: 85vh;
-border-radius: 16px;
-object-fit: contain;
-box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-}
+ .photo-card:active {
+ transform: scale(0.97);
+ }
 
-.lightbox-close {
-position: absolute;
-top: 20px;
-right: 20px;
-color: white;
-font-size: 2rem;
-cursor: pointer;
-font-weight: bold;
-background: rgba(255, 255, 255, 0.2);
-width: 44px;
-height: 44px;
-border-radius: 50%;
-display: flex;
-align-items: center;
-justify-content: center;
-}
+ .photo-card img {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ pointer-events: none;
+ }
 
-/* Anti-Screenshot Warning Modal */
-.modal-overlay {
-position: fixed;
-top: 0;
-left: 0;
-width: 100vw;
-height: 100vh;
-background: rgba(0, 0, 0, 0.6);
-backdrop-filter: blur(8px);
-display: flex;
-justify-content: center;
-align-items: center;
-z-index: 9999;
-opacity: 0;
-pointer-events: none;
-transition: opacity 0.3s ease;
-}
+ /* LIGHTBOX OVERLAY */
+ .lightbox-overlay {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100vw;
+ height: 100vh;
+ background: rgba(0, 0, 0, 0.9);
+ backdrop-filter: blur(5px);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ z-index: 9998;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.3s ease;
+ }
 
-.modal-overlay.active {
-opacity: 1;
-pointer-events: auto;
-}
+ .lightbox-overlay.active {
+ opacity: 1;
+ pointer-events: auto;
+ }
 
-.modal-card {
-background: white;
-padding: 28px 24px;
-border-radius: 20px;
-max-width: 320px;
-text-align: center;
-box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-}
+ .lightbox-img {
+ max-width: 90vw;
+ max-height: 85vh;
+ border-radius: 16px;
+ object-fit: contain;
+ box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+ }
 
-.modal-card p {
-font-size: 1.1rem;
-font-weight: 600;
-margin-bottom: 20px;
-}
+ .lightbox-close {
+ position: absolute;
+ top: 20px;
+ right: 20px;
+ color: white;
+ font-size: 2rem;
+ cursor: pointer;
+ font-weight: bold;
+ background: rgba(255, 255, 255, 0.2);
+ width: 44px;
+ height: 44px;
+ border-radius: 50%;
+ display: flex;
+ align-items: center;
+ justify-content: center;
+ }
 
-.modal-btn {
-background: var(--accent);
-color: white;
-border: none;
-padding: 10px 20px;
-border-radius: 12px;
-font-weight: 600;
-cursor: pointer;
-}
-</style>
+ /* ANTI-SCREENSHOT MODAL */
+ .modal-overlay {
+ position: fixed;
+ top: 0;
+ left: 0;
+ width: 100vw;
+ height: 100vh;
+ background: rgba(0, 0, 0, 0.6);
+ backdrop-filter: blur(8px);
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ z-index: 9999;
+ opacity: 0;
+ pointer-events: none;
+ transition: opacity 0.3s ease;
+ }
+
+ .modal-overlay.active {
+ opacity: 1;
+ pointer-events: auto;
+ }
+
+ .modal-card {
+ background: white;
+ padding: 28px 24px;
+ border-radius: 20px;
+ max-width: 320px;
+ text-align: center;
+ box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+ }
+
+ .modal-card p {
+ font-size: 1.1rem;
+ font-weight: 600;
+ margin-bottom: 20px;
+ }
+
+ .modal-btn {
+ background: var(--accent);
+ color: white;
+ border: none;
+ padding: 10px 20px;
+ border-radius: 12px;
+ font-weight: 600;
+ cursor: pointer;
+ }
+ </style>
 </head>
 <body>
 
-<!-- ENTRY SCREEN -->
-<div class="container entry-screen" id="entryScreen">
-<h2>Oh? Someone’s here… 👀</h2>
-<p>What’s your name?</p>
+ <!-- SCREEN 1: ENTRY -->
+ <div class="container entry-screen" id="entryScreen">
+ <h2>Oh? Someone’s here… </h2>
+ <p>What’s your name?</p>
+ 
+ <div class="input-group">
+ <input type="text" id="visitorName" placeholder="Enter your name..." autocomplete="off" />
+ </div>
+ 
+ <div class="error-msg" id="errorMsg">Access denied! You're not allowed in </div>
 
-<div class="input-group">
-<input type="text" id="visitorName" placeholder="Enter your name..." autocomplete="off" />
-</div>
+ <p class="sub-text">Let’s see if you’re allowed in </p>
+ 
+ <button class="btn" onclick="checkAccess()">Enter</button>
+ </div>
 
-<div class="error-msg" id="errorMsg">Access denied! You're not allowed in 😜</div>
+ <!-- SCREEN 2: VIDEO -->
+ <div class="container video-screen" id="videoScreen">
+ <div class="video-wrapper">
+ <video id="introVideo" playsinline muted>
+ <!-- Update this src path to match your video file name -->
+ <source src="/home/samukelo/Documents/my-gallery-/welcome-video.mp4" type="video/mp4" />
+ Your browser does not support the video tag.
+ </video>
+ </div>
+ </div>
 
-<p class="sub-text">Let’s see if you’re allowed in 🤭</p>
+ <!-- SCREEN 3: GALLERY -->
+ <div class="container gallery-screen" id="galleryScreen">
+ <div class="gallery-header" id="galleryHeader">
+ <h1>WELCOME TO SAMUKELO’S GALLERY </h1>
+ <p>A little collection of moments… </p>
+ </div>
 
-<button class="btn" onclick="checkAccess()">Enter</button>
-</div>
+ <div class="photo-grid" id="photoGrid">
+ <div class="photo-card" onclick="openLightbox('images/photo1.jpeg')">
+ <img src="images/photo1.jpeg" alt="Moment 1" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo2.jpeg')">
+ <img src="images/photo2.jpeg" alt="Moment 2" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo3.jpeg')">
+ <img src="images/photo3.jpeg" alt="Moment 3" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo5.jpeg')">
+ <img src="images/photo5.jpeg" alt="Moment 5" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo6.jpeg')">
+ <img src="images/photo6.jpeg" alt="Moment 6" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo7.jpeg')">
+ <img src="images/photo7.jpeg" alt="Moment 7" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo8.jpeg')">
+ <img src="images/photo8.jpeg" alt="Moment 8" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo9.jpeg')">
+ <img src="images/photo9.jpeg" alt="Moment 9" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo10.jpeg')">
+ <img src="images/photo10.jpeg" alt="Moment 10" />
+ </div>
+ <div class="photo-card" onclick="openLightbox('images/photo4.jpeg')">
+ <img src="images/photo4.jpeg" alt="Moment 4" />
+ </div>
+ </div>
+ </div>
 
-<!-- GALLERY SCREEN -->
-<div class="container gallery-screen" id="galleryScreen">
-<div class="gallery-header">
-<h1>WELCOME TO SAMUKELO’S GALLERY🙈🥹❤️</h1>
-<p>A little collection of moments… 📸😝</p>
-</div>
+ <!-- LIGHTBOX OVERLAY -->
+ <div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
+ <span class="lightbox-close">&times;</span>
+ <img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged view" />
+ </div>
 
-<div class="photo-grid">
-<div class="photo-card" onclick="openLightbox('images/photo1.jpeg')">
-<img src="images/photo1.jpeg" alt="Moment 1" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo2.jpeg')">
-<img src="images/photo2.jpeg" alt="Moment 2" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo3.jpeg')">
-<img src="images/photo3.jpeg" alt="Moment 3" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo4.jpeg')">
-<img src="images/photo4.jpeg" alt="Moment 4" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo5.jpeg')">
-<img src="images/photo5.jpeg" alt="Moment 5" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo6.jpeg')">
-<img src="images/photo6.jpeg" alt="Moment 6" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo7.jpeg')">
-<img src="images/photo7.jpeg" alt="Moment 7" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo8.jpeg')">
-<img src="images/photo8.jpeg" alt="Moment 8" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo9.jpeg')">
-<img src="images/photo9.jpeg" alt="Moment 9" />
-</div>
-<div class="photo-card" onclick="openLightbox('images/photo10.jpeg')">
-<img src="images/photo10.jpeg" alt="Moment 10" />
-</div>
-</div>
-</div>
+ <!-- SCREENSHOT WARNING OVERLAY -->
+ <div class="modal-overlay" id="warningModal">
+ <div class="modal-card">
+ <p>no need to screenshot, just ask for them </p>
+ <button class="modal-btn" onclick="closeModal()">Okay fine </button>
+ </div>
+ </div>
 
-<!-- LIGHTBOX FULLSCREEN OVERLAY -->
-<div class="lightbox-overlay" id="lightbox" onclick="closeLightbox()">
-<span class="lightbox-close">&times;</span>
-<img class="lightbox-img" id="lightboxImg" src="" alt="Enlarged view" />
-</div>
+ <script>
+ const allowedNames = [
+ "kelebogile",
+ "kele",
+ "kelebogile morena",
+ "morena"
+ ];
 
-<!-- SCREENSHOT WARNING OVERLAY -->
-<div class="modal-overlay" id="warningModal">
-<div class="modal-card">
-<p>no need to screenshot, just ask for them🤭</p>
-<button class="modal-btn" onclick="closeModal()">Okay fine ❤️</button>
-</div>
-</div>
+ function checkAccess() {
+ const nameInput = document.getElementById('visitorName').value.trim().toLowerCase();
+ const errorMsg = document.getElementById('errorMsg');
 
-<script>
-// Allowed names (case-insensitive)
-const allowedNames = [
-"kelebogile",
-"kele",
-"kelebogile morena",
-"morena"
-];
+ if (allowedNames.includes(nameInput)) {
+ errorMsg.style.display = 'none';
+ 
+ const entryScreen = document.getElementById('entryScreen');
+ const videoScreen = document.getElementById('videoScreen');
+ const video = document.getElementById('introVideo');
 
-function checkAccess() {
-const nameInput = document.getElementById('visitorName').value.trim().toLowerCase();
-const errorMsg = document.getElementById('errorMsg');
+ // Fade out entry screen
+ entryScreen.style.opacity = '0';
+ setTimeout(() => {
+ entryScreen.style.display = 'none';
+ videoScreen.style.display = 'block';
+ 
+ setTimeout(() => {
+ videoScreen.style.opacity = '1';
+ video.play();
+ }, 50);
+ }, 300);
 
-if (allowedNames.includes(nameInput)) {
-errorMsg.style.display = 'none';
+ // When video finishes playing, move to Gallery
+ video.onended = function() {
+ transitionToGallery();
+ };
 
-const entryScreen = document.getElementById('entryScreen');
-const galleryScreen = document.getElementById('galleryScreen');
+ } else {
+ errorMsg.style.display = 'block';
+ const container = document.getElementById('entryScreen');
+ container.style.transform = 'translateX(-8px)';
+ setTimeout(() => container.style.transform = 'translateX(8px)', 100);
+ setTimeout(() => container.style.transform = 'translateX(-8px)', 200);
+ setTimeout(() => container.style.transform = 'translateX(0)', 300);
+ }
+ }
 
-entryScreen.style.opacity = '0';
-setTimeout(() => {
-entryScreen.style.display = 'none';
-galleryScreen.style.display = 'block';
-setTimeout(() => {
-galleryScreen.style.opacity = '1';
-}, 50);
-}, 300);
-} else {
-errorMsg.style.display = 'block';
-// Shake animation for incorrect entry
-const container = document.getElementById('entryScreen');
-container.style.transform = 'translateX(-8px)';
-setTimeout(() => container.style.transform = 'translateX(8px)', 100);
-setTimeout(() => container.style.transform = 'translateX(-8px)', 200);
-setTimeout(() => container.style.transform = 'translateX(0)', 300);
-}
-}
+ function transitionToGallery() {
+ const videoScreen = document.getElementById('videoScreen');
+ const galleryScreen = document.getElementById('galleryScreen');
+ const galleryHeader = document.getElementById('galleryHeader');
+ const photoGrid = document.getElementById('photoGrid');
 
-// Lightbox Controls
-function openLightbox(imageSrc) {
-const lightbox = document.getElementById('lightbox');
-const lightboxImg = document.getElementById('lightboxImg');
-lightboxImg.src = imageSrc;
-lightbox.classList.add('active');
-}
+ // Fade out video screen
+ videoScreen.style.opacity = '0';
+ 
+ setTimeout(() => {
+ videoScreen.style.display = 'none';
+ galleryScreen.style.display = 'block';
 
-function closeLightbox() {
-const lightbox = document.getElementById('lightbox');
-lightbox.classList.remove('active');
-}
+ setTimeout(() => {
+ galleryScreen.style.opacity = '1';
+ // Show "WELCOME TO SAMUKELO'S GALLERY" header first
+ galleryHeader.classList.add('show');
 
-// Trigger Anti-Screenshot Warning
-function triggerWarning() {
-const modal = document.getElementById('warningModal');
-modal.classList.add('active');
-}
+ // Wait 2 seconds, then show the pictures
+ setTimeout(() => {
+ photoGrid.classList.add('show');
+ }, 2000);
 
-function closeModal() {
-const modal = document.getElementById('warningModal');
-modal.classList.remove('active');
-}
+ }, 50);
+ }, 400);
+ }
 
-// Prevent Right-Click Context Menu
-document.addEventListener('contextmenu', (e) => {
-e.preventDefault();
-const galleryScreen = document.getElementById('galleryScreen');
-if (galleryScreen.style.display === 'block') {
-triggerWarning();
-}
-});
+ // Lightbox Controls
+ function openLightbox(imageSrc) {
+ const lightbox = document.getElementById('lightbox');
+ const lightboxImg = document.getElementById('lightboxImg');
+ lightboxImg.src = imageSrc;
+ lightbox.classList.add('active');
+ }
 
-// Intercept Keyboard Shortcuts
-document.addEventListener('keyup', (e) => {
-if (e.key === 'PrintScreen') {
-triggerWarning();
-}
-});
+ function closeLightbox() {
+ const lightbox = document.getElementById('lightbox');
+ lightbox.classList.remove('active');
+ }
 
-document.addEventListener('keydown', (e) => {
-if (
-(e.ctrlKey || e.metaKey) &&
-(e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S')
-) {
-e.preventDefault();
-triggerWarning();
-}
-});
-</script>
+ // Anti-Screenshot Warnings
+ function triggerWarning() {
+ const modal = document.getElementById('warningModal');
+ modal.classList.add('active');
+ }
+
+ function closeModal() {
+ const modal = document.getElementById('warningModal');
+ modal.classList.remove('active');
+ }
+
+ document.addEventListener('contextmenu', (e) => {
+ e.preventDefault();
+ const galleryScreen = document.getElementById('galleryScreen');
+ if (galleryScreen.style.display === 'block') {
+ triggerWarning();
+ }
+ });
+
+ document.addEventListener('keyup', (e) => {
+ if (e.key === 'PrintScreen') {
+ triggerWarning();
+ }
+ });
+
+ document.addEventListener('keydown', (e) => {
+ if (
+ (e.ctrlKey || e.metaKey) && 
+ (e.key === 'p' || e.key === 'P' || e.key === 's' || e.key === 'S')
+ ) {
+ e.preventDefault();
+ triggerWarning();
+ }
+ });
+
+ window.addEventListener('blur', () => {
+ const galleryScreen = document.getElementById('galleryScreen');
+ if (galleryScreen.style.display === 'block') {
+ triggerWarning();
+ }
+ });
+ </script>
 </body>
 </html>
-
