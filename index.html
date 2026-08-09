@@ -50,7 +50,7 @@ text-align: center;
 transition: all 0.4s ease;
 }
 
-/* ENTRY SCREEN */
+/* SCREEN 1: ENTRY */
 .entry-screen h2 {
 font-size: 1.35rem;
 font-weight: 700;
@@ -119,7 +119,7 @@ background-color: var(--accent-hover);
 transform: scale(0.98);
 }
 
-/* VIDEO SCREEN */
+/* SCREEN 2: VIDEO */
 .video-screen {
 display: none;
 opacity: 0;
@@ -142,7 +142,7 @@ height: auto;
 display: block;
 }
 
-/* GALLERY SCREEN */
+/* SCREEN 3: GALLERY */
 .gallery-screen {
 display: none;
 width: 100%;
@@ -328,9 +328,9 @@ cursor: pointer;
 <!-- SCREEN 2: VIDEO -->
 <div class="container video-screen" id="videoScreen">
 <div class="video-wrapper">
-<video id="introVideo" autoplay playsinline muted>
+<video id="introVideo" autoplay playsinline muted loop="false">
 <!-- Update this src path to match your video file name -->
-<source src="/home/samukelo/Documents/my-gallery-/images/welcome-video.mp4" type="video/mp4" />
+<source src="images/welcome-video.mp4" type="video/mp4" />
 Your browser does not support the video tag.
 </video>
 </div>
@@ -344,35 +344,35 @@ Your browser does not support the video tag.
 </div>
 
 <div class="photo-grid" id="photoGrid">
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo1.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo1.jpeg" alt="Moment 1" />
+<div class="photo-card" onclick="openLightbox('images/photo1.jpeg')">
+<img src="images/photo1.jpeg" alt="Moment 1" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo2.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo2.jpeg" alt="Moment 2" />
+<div class="photo-card" onclick="openLightbox('images/photo2.jpeg')">
+<img src="images/photo2.jpeg" alt="Moment 2" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo3.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo3.jpeg" alt="Moment 3" />
+<div class="photo-card" onclick="openLightbox('images/photo3.jpeg')">
+<img src="images/photo3.jpeg" alt="Moment 3" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo5.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo5.jpeg" alt="Moment 5" />
+<div class="photo-card" onclick="openLightbox('images/photo5.jpeg')">
+<img src="images/photo5.jpeg" alt="Moment 5" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo6.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo6.jpeg" alt="Moment 6" />
+<div class="photo-card" onclick="openLightbox('images/photo6.jpeg')">
+<img src="images/photo6.jpeg" alt="Moment 6" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo7.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo7.jpeg" alt="Moment 7" />
+<div class="photo-card" onclick="openLightbox('images/photo7.jpeg')">
+<img src="images/photo7.jpeg" alt="Moment 7" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo8.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo8.jpeg" alt="Moment 8" />
+<div class="photo-card" onclick="openLightbox('images/photo8.jpeg')">
+<img src="images/photo8.jpeg" alt="Moment 8" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo9.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo9.jpeg" alt="Moment 9" />
+<div class="photo-card" onclick="openLightbox('images/photo9.jpeg')">
+<img src="images/photo9.jpeg" alt="Moment 9" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo10.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo10.jpeg" alt="Moment 10" />
+<div class="photo-card" onclick="openLightbox('images/photo10.jpeg')">
+<img src="images/photo10.jpeg" alt="Moment 10" />
 </div>
-<div class="photo-card" onclick="openLightbox('/home/samukelo/Documents/my-gallery-/images/photo4.jpeg')">
-<img src="/home/samukelo/Documents/my-gallery-/images/photo4.jpeg" alt="Moment 4" />
+<div class="photo-card" onclick="openLightbox('images/photo4.jpeg')">
+<img src="images/photo4.jpeg" alt="Moment 4" />
 </div>
 </div>
 </div>
@@ -418,11 +418,20 @@ videoScreen.style.display = 'block';
 
 setTimeout(() => {
 videoScreen.style.opacity = '1';
-video.play();
+
+// Force play
+const playPromise = video.play();
+if (playPromise !== undefined) {
+playPromise.catch((err) => {
+console.log("Autoplay blocked, skipping directly to gallery:", err);
+// If mobile blocks video play, automatically jump to gallery
+transitionToGallery();
+});
+}
 }, 50);
 }, 300);
 
-// When video finishes playing, move to Gallery
+// Transition when video finishes playing
 video.onended = function() {
 transitionToGallery();
 };
@@ -452,10 +461,9 @@ galleryScreen.style.display = 'block';
 
 setTimeout(() => {
 galleryScreen.style.opacity = '1';
-// Show "WELCOME TO SAMUKELO'S GALLERY" header first
 galleryHeader.classList.add('show');
 
-// Wait 2 seconds, then show the pictures
+// Reveal picture grid 2 seconds after header
 setTimeout(() => {
 photoGrid.classList.add('show');
 }, 2000);
@@ -521,3 +529,4 @@ triggerWarning();
 </script>
 </body>
 </html>
+
